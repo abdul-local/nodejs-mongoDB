@@ -1,6 +1,6 @@
 var express= require('express');
 var mongoose = require('mongoose');
-// var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
  var app = express();
 
  const MongoClient = require('mongodb').MongoClient;
@@ -16,10 +16,10 @@ var mongoose = require('mongoose');
    console.log('sudah connect ke databasemu bdull...')
  });
  // membuat middleware
-//  app.use(bodyParser.json);// menerima bodeparse dalam format json
-//  app.use(bodyParser.urlencoded({ extended : true})); //menerima bodyparse dalam format utc
+ app.use(bodyParser.json());// menerima bodeparse dalam format json
+ app.use(bodyParser.urlencoded({ extended : true})); //menerima bodyparse dalam format utf 8
 
-
+// metod membuat halaman index
 app.get('/',function(req,res,next){
 
     res.json('selamat datang di halaman beranda')
@@ -28,7 +28,6 @@ app.get('/',function(req,res,next){
  
     var UserSchema = new mongoose.Schema({
 
-
         name: String,
         age : Number
     });
@@ -36,44 +35,44 @@ app.get('/',function(req,res,next){
      var User =mongoose.model('User', UserSchema );
     
     //menambahkan  new User
-    app.get('/create-user',function(req,res,next){
-        var user = new User();
-        user.name = "abdul";
-        user.age = 17;
-        res.json(user);
-        user.save();
+    // app.get('/create-user',function(req,res,next){
+    //     var user = new User();
+    //     user.name = "abdul";
+    //     user.age = 17;
+    //     res.json(user);
+    //     // user.save();
 
-        // user.save(function(err){
+    //     user.save(function(err){
 
-        //     if (err) next(err);
-        //     res.json(user);
-        // });
+    //         if (err) next(err);
+    //         res.json(user);
+    //     });
     
-    });
+    // });
 
 
 
     //membuat method post nya
-    // app.post('/create-user', function(req,res,next){
+    app.post('/create-user', function(req,res,next){
 
-    //     var user= new User();
-    //     user.name =req.body.name;
-    //     user.age =req.body.age;
-    //     user.save(function(err){
-    //         if(err) console.log(err);
-    //         res.json(user);
-    //     });
-    // });
+        var user= new User();
+        user.name =req.body.name;
+        user.age =req.body.age;
+        user.save(function(err){
+            if(err) console.log(err);
+            res.json(user);
+        });
+    });
 
     // // postman=eksternal post yg membantu testing IP 
 
-    // app.post('/create-user', function(req, res, next){
+    app.post('/create-user', function(req, res, next){
 
  
-    //     var user=new User(); // menginstansikan user baru
+        var user = new User(); // menginstansikan user baru
 
 
-    // });
+    });
     
 //     res.json(req.params.name)
 //  });
